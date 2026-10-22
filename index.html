@@ -1,0 +1,1465 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>同频舱｜多模态无障碍空间导航 · 作品编号 400264</title>
+<style>
+:root{--bg:#101b24;--card:#172832;--line:#354e59;--ink:#edf3ef;--muted:#a2b7b5;--teal:#77dfc4;--lime:#c8e78b;--warn:#edc76c;--scale:1}
+*{box-sizing:border-box}body{margin:0;background:#101b24;color:var(--ink);font:calc(15px * var(--scale))/1.5 "Segoe UI","Microsoft YaHei",sans-serif;transition:background .2s}
+body.hi{--bg:#000;--card:#101010;--line:#aaa;--ink:#fff;--muted:#eee;--teal:#7ffff0;--lime:#efff68;background:#000}
+body.reduce *{transition:none!important;animation:none!important}
+.shell{max-width:1200px;margin:auto;padding:0 22px}
+.top{height:62px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid var(--line);color:var(--muted);font-size:12px}
+.logo{color:var(--teal);font-weight:700;letter-spacing:.14em;text-decoration:none}
+.back{color:var(--muted);text-decoration:none}
+.hero{padding:28px 0 18px}
+.k{font:11px ui-monospace,monospace;letter-spacing:.16em;color:var(--teal)}
+h1{font-size:clamp(30px,4vw,48px);line-height:1.1;margin:8px 0}
+.hero p{color:var(--muted);max-width:750px;margin:0}
+.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;padding:12px 0 38px}
+.card{border:1px solid var(--line);border-radius:14px;background:var(--card);overflow:hidden}
+.map-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 17px;border-bottom:1px solid var(--line);font-size:12px}
+.badge{color:var(--teal);font:10px ui-monospace,monospace}
+.floor-tabs{display:flex;gap:6px}
+.map{padding:18px;display:grid;grid-template-columns:repeat(7,1fr);gap:5px;min-height:350px;background:linear-gradient(135deg,#1b3540,#152730)}
+.cell{aspect-ratio:1.3;border:1px solid #42606a;border-radius:8px;display:grid;place-items:center;text-align:center;font-size:10px;color:#bfd0ce;background:#18303a;position:relative;line-height:1.2;padding:2px}
+.cell span{display:block;font-size:8px;color:#90aaa8}
+.cell.block{background:repeating-linear-gradient(135deg,#482f35,#482f35 5px,#5a3a3c 5px,#5a3a3c 9px);color:#ffe0d2;border-color:#bc807a}
+.cell.stair{background:#403d31;border-color:#a89b68}
+.cell.ramp{background:#1d4a44;border-color:#6fd8bf}
+.cell.lift{background:#1d3c4a;border-color:#79b6d8}
+.cell.narrow{border-style:dashed;border-color:var(--warn)}
+.cell.path{box-shadow:inset 0 0 0 2px var(--lime);color:#f5ffd5}
+.cell.start{background:#15594f;border-color:var(--teal)}
+.cell.goal{background:#604638;border-color:#efbb7d}
+.cell.here:after{content:"●";position:absolute;color:#fff;font-size:24px;text-shadow:0 0 12px var(--teal)}
+.legend{display:flex;gap:12px;flex-wrap:wrap;padding:0 17px 15px;font-size:10px;color:var(--muted)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;background:var(--teal)}
+.dot.l{background:var(--lime)}.dot.w{background:var(--warn)}.dot.r{background:#6fd8bf}.dot.b{background:#79b6d8}
+.controls{padding:18px}
+.controls h2{font-size:15px;margin:0 0 8px}
+.controls h3{font-size:12px;margin:16px 0 6px;color:var(--teal);letter-spacing:.04em}
+.muted{color:var(--muted);font-size:11px}
+.dest{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0 10px}
+.chip,.btn{border:1px solid var(--line);border-radius:9px;background:#10212a;color:var(--ink);padding:8px 10px;font-size:11px;font-family:inherit}
+.chip{cursor:pointer}
+.chip[aria-pressed=true]{border-color:var(--teal);background:#20443e;color:#dffff3}
+.btn{cursor:pointer}
+.btn:hover,.chip:hover{border-color:var(--teal)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.on{border-color:var(--teal);color:var(--teal)}
+.info{background:#0f2028;border-radius:10px;padding:10px;font-size:11px;color:#b7d2cc;margin:0 0 10px}
+.info b{color:var(--lime)}
+.cmp{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.cmp-item{display:flex;flex-direction:column;gap:4px;border:1px solid var(--line);border-radius:10px;background:#0f2028;padding:9px;font-size:11px;color:#b7d2cc}
+.cmp-item.on{border-color:var(--lime);box-shadow:inset 0 0 0 1px rgba(200,231,139,.35)}
+.cmp-h{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.cmp-h b{color:var(--ink);font-size:11px}
+.tag{font-size:9px;color:var(--teal);border:1px solid var(--teal);border-radius:6px;padding:1px 5px;white-space:nowrap}
+.cmp-m{display:flex;justify-content:space-between;gap:6px;font-size:10px;color:var(--muted)}
+.cmp-m b{color:var(--lime);font-variant-numeric:tabular-nums}
+.cmp-note{font-size:10px;color:var(--muted);margin:2px 0 6px}
+.cmp-item .btn{margin-top:auto}
+.route{background:#0f2028;border-radius:10px;padding:12px;margin:12px 0;color:#b7d2cc;font-size:11px;min-height:58px}
+.route b{color:var(--lime)}
+.steps{list-style:none;margin:0 0 10px;padding:0;max-height:190px;overflow:auto;border:1px solid var(--line);border-radius:10px}
+.steps li{padding:7px 10px;font-size:11px;color:var(--muted);border-bottom:1px solid rgba(53,78,89,.5)}
+.steps li:last-child{border-bottom:0}
+.steps li.cur{background:#20443e;color:#dffff3;font-weight:700}
+.steps li.done{color:#7d9a97}
+.command{display:flex;gap:6px;margin:10px 0}
+.command input{flex:1;min-width:0;border:1px solid var(--line);border-radius:8px;background:#0c1a22;color:var(--ink);padding:9px;font:inherit;font-size:11px}
+.dpad{display:grid;grid-template-columns:repeat(3,42px);gap:5px;justify-content:center;margin:10px auto}
+.dpad button{height:38px}
+.opts{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+.vibox{border:1px solid var(--line);border-radius:10px;padding:9px;font-size:11px;color:var(--muted);min-height:34px;background:#0f2028}
+.vibox.flash{animation:fl .9s ease-out 1}
+@keyframes fl{0%{background:#3d5a4a;color:#fff;border-color:var(--warn)}100%{background:#0f2028}}
+.log{border-top:1px solid var(--line);padding-top:12px;color:var(--muted);font-size:10px;max-height:75px;overflow:auto}
+.note{font-size:10px;color:#96aaa7;margin:10px 0 0}
+button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--warn);outline-offset:2px}
+.live{min-height:18px;color:var(--warn);font-size:11px}
+.mask{position:fixed;inset:0;background:rgba(0,0,0,.6);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}
+.mask.show{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(600px,94vw);background:var(--card);border-left:1px solid var(--line);z-index:50;transform:translateX(102%);transition:transform .25s ease;display:flex;flex-direction:column}
+.drawer.open{transform:none}
+.drawer header{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line)}
+.drawer header b{font-size:15px}
+.drawer .body{overflow:auto;padding:4px 18px 26px}
+.drawer details{border-bottom:1px solid var(--line);padding:10px 0}
+.drawer summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--teal)}
+.drawer details p,.drawer details li{font-size:12px;color:var(--muted);line-height:1.7;margin:6px 0}
+.drawer details ul{margin:4px 0;padding-left:20px}
+.drawer details b{color:var(--ink)}
+.pill{display:inline-block;font-size:9px;border:1px solid var(--warn);color:var(--warn);border-radius:6px;padding:1px 5px;margin-left:4px}
+.pill.ok{border-color:var(--teal);color:var(--teal)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+.pane{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:16px 18px;margin:0 0 14px}
+.sect{font-size:14px;color:var(--teal);letter-spacing:.06em;margin:0 0 8px}
+.subsect{font-size:12px;color:var(--teal);letter-spacing:.04em;margin:14px 0 6px}
+.rows{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:8px}
+.row{display:grid;grid-template-columns:.9fr 2.6fr auto;gap:8px;padding:8px 10px;font-size:11px;border-bottom:1px solid rgba(53,78,89,.5);color:var(--muted);align-items:start}
+.row:last-child{border-bottom:0}
+.row b{color:var(--ink);font-size:11px}
+.ed-grid{display:grid;gap:4px;padding:12px;background:linear-gradient(135deg,#1b3540,#152730);border:1px solid var(--line);border-radius:10px}
+.ecell{aspect-ratio:1.1;min-height:34px;border:1px solid #42606a;border-radius:7px;background:#18303a;color:#bfd0ce;font:inherit;font-size:9px;line-height:1.2;padding:2px;cursor:pointer;overflow:hidden}
+.ecell.wall{background:repeating-linear-gradient(135deg,#482f35,#482f35 4px,#5a3a3c 4px,#5a3a3c 8px);color:#ffe0d2;border-color:#bc807a}
+.ecell.narrow{border-style:dashed;border-color:var(--warn)}
+.ecell.stair{background:#403d31;border-color:#a89b68}
+.ecell.ramp{background:#1d4a44;border-color:#6fd8bf}
+.ecell.lift{background:#1d3c4a;border-color:#79b6d8}
+.ecell.place{background:#604638;border-color:#efbb7d;color:#ffe7c6}
+.ecell small{display:block;font-size:8px;color:#9fb6b4}
+textarea.json{width:100%;min-height:90px;border:1px solid var(--line);border-radius:8px;background:#0c1a22;color:var(--ink);padding:8px;font:11px ui-monospace,monospace;resize:vertical}
+.field{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
+.field label{font-size:11px;color:var(--muted)}
+.field input{border:1px solid var(--line);border-radius:8px;background:#0c1a22;color:var(--ink);padding:7px 8px;font:inherit;font-size:11px}
+.risk{color:var(--warn)}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.map{min-height:0}.cell{font-size:8px}.shell{padding:0 14px}.cmp{grid-template-columns:1fr}.top{height:auto;padding:12px 0}.row{grid-template-columns:1fr}}
+[hidden]{display:none!important}
+</style></head><body><div class="shell">
+<header class="top">
+  <span class="logo">FIELD / 02</span>
+  <span class="muted">虚构网格演示 · 非真实测绘数据</span>
+  <span style="display:flex;gap:8px;align-items:center">
+    
+    <button class="btn" id="aboutBtn" aria-haspopup="dialog">作品说明</button>
+  </span>
+</header>
+
+<section class="hero"><div class="k">ACCESSIBLE WEB APPLICATION · NAVIGATION</div><h1>同频舱：多模态无障碍空间导航</h1><p>同一栋虚构实验楼的两层平面，同一条路线，可以用不同方式操作与感知：切换无障碍偏好后，路线权重、提示通道与界面呈现会同步变化，并同时给出三种路线策略供比较与选择。</p></section>
+
+<main class="grid">
+<section class="card">
+  <div class="map-head">
+    <b>空间图 · <span id="mapTitle">虚构实验楼</span>（<span id="floorName">一楼</span>）</b>
+    <span class="floor-tabs" role="group" aria-label="楼层切换" id="floorTabs"></span>
+    <span class="badge" id="mapSrc">内置示例 · 7×5×2</span>
+  </div>
+  <div class="map" id="map" role="grid" aria-label="室内空间网格，两层各 7 列 5 行"></div>
+  <div class="legend">
+    <span><i class="dot"></i>当前位置</span><span><i class="dot l"></i>已采用路线</span>
+    <span><i class="dot w"></i>窄通道（虚线）</span><span><i class="dot r"></i>坡道</span><span><i class="dot b"></i>楼梯 / 电梯</span><span>▧ 不可通行</span>
+  </div>
+  <p class="note" id="mapNote" style="padding:0 17px 15px;margin:0">楼梯对轮椅模式不可通行；坡道可通行但绕行距离更长。以上均为演示用虚构布局，不对应任何真实建筑。</p>
+</section>
+
+<aside class="card controls">
+  <h2>1 · 无障碍偏好模式</h2>
+  <div class="opts" id="modeBox" role="group" aria-label="无障碍偏好模式">
+    <button class="btn" data-mode="wheelchair" aria-pressed="true">轮椅</button>
+    <button class="btn" data-mode="lowvision" aria-pressed="false">低视力</button>
+    <button class="btn" data-mode="hearing" aria-pressed="false">听障</button>
+  </div>
+  <div class="info" id="modeReason"></div>
+
+  <h2>2 · 选择目的地</h2>
+  <div class="muted" id="destHint">6 个地点分布在两层；选中后查看设施说明与三条策略路线。</div>
+  <div class="dest" id="dest" role="group" aria-label="目的地"></div>
+  <div class="info" id="placeInfo"></div>
+
+  <h2>3 · 路线策略对比</h2>
+  <div class="cmp" id="cmp"></div>
+  <div class="info" id="cmpWhy" style="margin-top:8px"></div>
+
+  <h2>4 · 导航</h2>
+  <div class="route" id="route" aria-live="polite"></div>
+  <ol class="steps" id="steps" aria-label="路线步骤"></ol>
+  <div class="opts">
+    <button class="btn" id="btnStep">沿路线前进一步</button>
+    <button class="btn" id="reset">重置</button>
+    <button class="btn" id="exportJson">导出行程报告 JSON</button>
+    <button class="btn" id="exportText">导出文本报告</button>
+  </div>
+  <div class="dpad" aria-label="屏幕方向键">
+    <span></span><button class="btn" data-move="0,-1" aria-label="向上">↑</button><span></span>
+    <button class="btn" data-move="-1,0" aria-label="向左">←</button><button class="btn" data-move="0,0" aria-label="播报当前位置">◎</button><button class="btn" data-move="1,0" aria-label="向右">→</button>
+    <span></span><button class="btn" data-move="0,1" aria-label="向下">↓</button><span></span>
+  </div>
+  <div class="command"><input id="cmd" aria-label="文字指令" placeholder="试试：去图书馆 / 去厕所 / 去南门"><button class="btn" id="send">执行</button></div>
+  <div class="opts">
+    <button class="btn" id="voice" aria-pressed="false">语音播报</button>
+    <button class="btn" id="contrast" aria-pressed="false">高对比</button>
+    <button class="btn" id="large" aria-pressed="false">大字</button>
+    <button class="btn" id="motion" aria-pressed="false">减少动效</button>
+  </div>
+  <div class="vibox" id="vibox" aria-hidden="true">提示通道：等待操作。</div>
+  <div class="live" id="live" aria-live="polite" role="status"></div>
+  <div class="log" id="log">路线记录：等待选择目的地。</div>
+  <p class="note">原型使用网格建模与 Dijkstra 加权寻路规划示例路线，不连接真实地图、定位或校园 POI。实际部署前需现场测绘、无障碍核验与用户测试。</p>
+</aside></main>
+
+<section class="pane">
+  <h2 class="sect">无障碍自检清单（团队自行核对，可逐条核验）</h2>
+  <p class="muted" style="margin:0 0 6px">下表逐条列出本作品已实现的适配项与尚未开展的事项。导出行程报告时会一并附带本表。</p>
+  <div class="rows" id="a11yList"></div>
+  <p class="note">口径说明：以上为团队按公开无障碍指南（WCAG 2.1 思路）逐条自行核对的结果，<b>未开展第三方无障碍审计、未取得任何合规认证或检测报告</b>；「已实现」仅表示代码中存在对应处理，不等于通过标准符合性测试。核对日期：2026-10-22。</p>
+</section>
+
+<section class="pane">
+  <h2 class="sect">录入自己的校园（自定义地图编辑）</h2>
+  <p class="muted" style="margin:0 0 6px">选择工具后点击格子即可编辑：可标记墙 / 封闭、窄通道、楼梯、坡道、电梯与目的地名称。垂直交通按「两层同一行列自动配对」连接。任何学校都能把自己的教学楼抽象成网格后录入使用。</p>
+  <div class="opts" id="tools" role="group" aria-label="编辑工具">
+    <button class="chip" type="button" data-tool="wall" aria-pressed="true">墙 / 封闭</button>
+    <button class="chip" type="button" data-tool="open" aria-pressed="false">可通行</button>
+    <button class="chip" type="button" data-tool="narrow" aria-pressed="false">窄通道</button>
+    <button class="chip" type="button" data-tool="stair" aria-pressed="false">楼梯</button>
+    <button class="chip" type="button" data-tool="ramp" aria-pressed="false">坡道</button>
+    <button class="chip" type="button" data-tool="lift" aria-pressed="false">电梯</button>
+    <button class="chip" type="button" data-tool="place" aria-pressed="false">设为目的地</button>
+    <button class="chip" type="button" data-tool="erase" aria-pressed="false">移除标记</button>
+  </div>
+  <div class="field">
+    <label for="placeName">目的地名称</label><input id="placeName" placeholder="如：三号教学楼">
+    <label for="stairSteps">台阶数</label><input id="stairSteps" type="number" min="1" max="60" value="8" style="width:72px">
+    <label for="mapName">地图名称</label><input id="mapName" placeholder="如：某某学院实验楼">
+  </div>
+  <div class="field" style="justify-content:space-between">
+    <span class="floor-tabs" role="group" aria-label="编辑楼层" id="edTabs"></span>
+    <span class="muted" id="editHint">当前工具：墙 / 封闭</span>
+  </div>
+  <div class="ed-grid" id="edGrid" role="group" aria-label="可编辑网格"></div>
+  <div class="legend" style="padding:10px 0 0">
+    <span><i class="dot"></i>目的地</span><span><i class="dot w"></i>窄通道</span>
+    <span><i class="dot r"></i>坡道</span><span><i class="dot b"></i>楼梯 / 电梯</span><span>▧ 墙 / 封闭</span>
+  </div>
+  <div class="field">
+    <button class="btn" type="button" id="saveMap">保存到本机</button>
+    <button class="btn" type="button" id="resetMap">恢复内置示例</button>
+    <button class="btn" type="button" id="expMap">导出地图 JSON</button>
+    <button class="btn" type="button" id="impMap">导入地图 JSON</button>
+    <button class="btn" type="button" id="clearData2">清除本地数据</button>
+  </div>
+  <textarea class="json" id="mapJson" aria-label="地图 JSON 文本" placeholder="点『导出地图 JSON』后内容出现在这里；也可粘贴一份地图 JSON 后点『导入地图 JSON』。"></textarea>
+  <p class="note" id="mapStatus" role="status">状态：地图来源为内置示例（虚构数据）。</p>
+  <p class="note">数据安全：编辑内容<b>只保存在本浏览器的 localStorage（键名 <code>tongpin.map.v1</code>），不上传任何服务器、不做任何网络请求</b>；换设备或清理浏览器数据会丢失，请用「导出地图 JSON」备份。导入时会校验（列 3–14、行 3–12、楼层 1–3、至少 1 个目的地、目的地不得落在封闭格），不合规时给出文字提示并保持原地图不变。若浏览器禁用存储，页面降级为「本次会话内有效，关闭即失效」并明确提示，不静默失败。</p>
+</section>
+</div>
+
+<div class="mask" id="mask"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dlgTitle" aria-hidden="true">
+  <header><b id="dlgTitle">作品说明</b><button class="btn" id="drawerClose">关闭 (Esc)</button></header>
+  <div class="body">
+    <details open><summary>1 · 需求分析与用户画像（3 类用户 · 痛点 · 功能响应）</summary>
+      <p><b>需求来源说明：</b>本轮需求来自公开规范（GB 50763 等）与公开资料的桌面研究，<span class="pill">未开展</span>真实用户访谈与问卷，以下画像为典型场景归纳，供评审对照与后续访谈校验使用。</p>
+      <ul>
+        <li><b>画像 A · 轮椅使用者（自主出行的学生 / 来访者）</b><br>
+          核心痛点：① 常见导航只给"最短"路线，往往含台阶，走到跟前才发现过不去；② 不知道哪部电梯可用、坡道要绕多远；③ 门宽与窄通道信息缺失，容易卡在半路。<br>
+          功能响应：轮椅模式把"无台阶"设为硬约束（楼梯代价为无穷，直接判定不可达）；三种策略并排给出<b>步数 / 台阶数 / 转弯数 / 是否经坡道</b>，把绕行代价交由使用者自己权衡；窄通道单独标注并计入代价；路线结果给出风险提示（经过 N 处窄通道）。</li>
+        <li><b>画像 B · 低视力者</b><br>
+          核心痛点：① 界面字号与对比度不足，看不清网格与按钮；② 台阶与高差难以目视发现；③ 视线不敢离开画面去读长段说明。<br>
+          功能响应：低视力模式自动切换到 1.3 倍字号 + 高对比 + 语音播报优先（浏览器不支持时降级为文字提示）；台阶数与步数并列显示为一等指标；全部状态变更经 <code>aria-live</code> 区域播报，可只听不看完成导航。</li>
+        <li><b>画像 C · 听障者</b><br>
+          核心痛点：① 语音播报类提示完全接收不到；② 视觉提示一闪而过，容易漏掉关键信息；③ 嘈杂环境（如报告厅散场）下无法依赖听觉广播。<br>
+          功能响应：听障模式关闭语音，改用<b>文字提示条 + 视觉高亮闪烁</b>承载全部播报内容；完整路线步骤列表常驻可回看，不依赖时效性提示，随时能补看漏掉的信息。</li>
+      </ul>
+      <p><b>共性需求 → 共同响应：</b>三类偏好共享同一套状态机与同一份路线数据，任一交互通道（键盘 / 屏幕方向键 / 文字指令 / 语音）都能独立完成"选目的地 → 比路线 → 导航 → 导出报告"全流程，避免"少了某个通道就用不了"。</p>
+      <p><b>需求 → 功能对照（可核验）：</b>无台阶硬约束 → 轮椅模式楼梯代价无穷；横向比较 → 三策略并排卡片与量化指标；通道替代 → 三种偏好的差异化提示通道；信息可留存 → 行程报告 JSON / 文本导出；任何学校可用 → 自定义地图编辑与导入导出。</p>
+    </details>
+    <details><summary>2 · 作品简介与目标用户</summary>
+      <p><b>作品定位：</b>一个离线可运行的室内无障碍导航原型，覆盖虚构实验楼的一层与二层，共 6 个目的地、3 类垂直交通（楼梯 / 坡道 / 电梯）。</p>
+      <p><b>目标用户：</b>轮椅使用者、低视力使用者、听障使用者，以及需要在陌生公共建筑中快速理解"哪条路更适合我"的普通访客与陪同人员。</p>
+      <p><b>要解决的问题：</b>常见导航只给一条"最短"路线，使用者无法知道这条路是否有台阶、是否经过窄通道、是否必须等电梯。本作品把这些信息量化后并排呈现，允许使用者自己决定。</p>
+    </details>
+    <details><summary>3 · 创新点（3 条，及与常见校园地图 / 导航应用的差异）</summary>
+      <p><b>创新点一：偏好驱动的加权寻路 + 三策略并排对比。</b>同一目的地同时计算"最短路径 / 无障碍优先 / 少台阶"，并逐项量化<b>步数、台阶数、转弯数、是否经过坡道</b>，可一键采用任一条。<br><b>差异：</b>常见校园地图只输出单一最短路径，台阶与绕行信息缺失或仅以文字备注出现，无法横向比较。</p>
+      <p><b>创新点二：多模态"同义"交互。</b>键盘方向键、屏幕方向键盘、文字指令（带地点别名容错与失败兜底提示）、语音播报四种通道操作同一套状态机，任一通道都能独立完成"选目的地 → 比路线 → 导航 → 导出"全流程。<br><b>差异：</b>常见导航以触屏点选为唯一主通道，其余通道多为附加功能，缺一不可用的情况普遍存在。</p>
+      <p><b>创新点三：通道替代而非通道叠加。</b>听障模式关闭语音并以"视觉高亮闪烁 + 文字提示条"替代；低视力模式自动切换到最大字号、高对比与语音优先；轮椅模式把"无台阶"升级为硬约束。<br><b>差异：</b>常见做法是把无障碍当作附加设置项，切换后不改变路线结果，也不改变提示通道的主次关系。</p>
+    </details>
+    <details><summary>4 · 技术路线</summary>
+      <ul>
+        <li><b>网格建模：</b>2 层 × 7 列 × 5 行，共 70 个节点；节点邻接为同层四向移动 + 垂直连接（楼梯 / 坡道 / 电梯）。不可通行格、窄通道格作为节点属性参与代价计算。</li>
+        <li><b>寻路算法：</b>所有边权均为正数，使用 Dijkstra（小规模数组优先队列）求最短路；一次规划同时以三种权重表各跑一遍，得到三条候选路线。</li>
+        <li><b>偏好权重设计：</b>总代价 = 基础移动 1 + 窄通道（模式权重 + 策略权重）+ 垂直连接代价。坡道含绕行代价、电梯含候梯代价、楼梯按模式与策略叠加台阶惩罚；轮椅模式下楼梯代价为无穷（不可通行）。</li>
+        <li><b>无外部依赖：</b>纯 HTML + CSS + 原生 JavaScript，无构建、无框架、无网络请求；语音使用 Web Speech API 并做能力检测，不支持时降级为文字提示。</li>
+        <li><b>无障碍工程：</b>尊重 <code>prefers-reduced-motion</code>、<code>:focus-visible</code> 焦点环、<code>aria-live</code> 播报区、抽屉 Esc / 遮罩关闭与焦点返回、移动端单列适配。</li>
+      </ul>
+    </details>
+    <details><summary>5 · 操作与运行说明</summary>
+      <ul>
+        <li><b>运行：</b>直接用浏览器打开本 HTML 文件即可，无需安装、构建或联网。</li>
+        <li><b>鼠标 / 触屏：</b>选偏好模式 → 选目的地 → 在策略卡片点"采用这条" → 点"沿路线前进一步"逐步导航，也可用屏幕方向键盘自由移动。</li>
+        <li><b>键盘：</b>Tab / Shift+Tab 遍历控件；方向键在当前楼层移动；◎ 或"播报当前位置"查询所在位置；文字指令输入框回车即执行；Esc 关闭作品说明抽屉。</li>
+        <li><b>文字指令示例：</b>去图书馆、去厕所、去南门、去报告厅、去电梯、去休息区（支持别名，如"卫生间""礼堂""升降梯"）。</li>
+        <li><b>录入自己的校园：</b>在页面下方"录入自己的校园"面板选工具后点格子即可编辑网格与目的地，保存到本机并可导出 / 导入地图 JSON；地图数据只存本机，不上传。</li>
+        <li><b>预计时间与风险提示：</b>路线卡片与导航区给出"步数 × 0.8 m、× 1.2 秒"的示例估算结果与风险提示（窄通道、台阶、电梯候梯），该估算未做实测校准。</li>
+        <li><b>导出：</b>行程报告含偏好模式、起终点、采用路线、逐步指令、台阶 / 坡道统计、预计时间、风险提示、无障碍自检结果与地图来源，支持 JSON 与纯文本两种格式，保存在本地。</li>
+      </ul>
+    </details>
+    <details><summary>6 · 验证与测试自查（已完成 / 尚未开展 / 后续计划 分列）</summary>
+      <p><b>已完成（团队自行核对）：</b></p>
+      <ul>
+        <li><span class="pill ok">已完成</span><b>公开规范自行核对：</b>通道净宽、坡道坡度、轮椅回转空间等参数依据《无障碍设计规范》GB 50763 的公开通行要求取值；<b>只引用公开通行原则，不逐条标注条款号，也未委托检测</b>。</li>
+        <li><span class="pill ok">已完成</span><b>页面功能走查：</b>按操作路径逐项验证导出文件（行程报告 JSON 与纯文本字段完整）、键盘操作（Tab 遍历、方向键移动、Esc 关闭抽屉）、移动端单列布局、减少动效（<code>prefers-reduced-motion</code>）、边界提示（"无可达路线"、语音能力不支持时的降级提示）。</li>
+        <li><span class="pill ok">已完成</span><b>代码与第三方资源自查：</b>无外部依赖、图形均由 CSS 与代码绘制、无未授权第三方素材。</li>
+      </ul>
+      <p><b>尚未开展（如实列出，不作已完成陈述）：</b></p>
+      <ul>
+        <li><span class="pill">未开展</span><b>专业审阅：</b>未邀请无障碍设计或建筑设计专业人员审阅参数取值与权重设定。</li>
+        <li><span class="pill">未开展</span><b>实地测绘：</b>未开展真实场地测量，网格、门宽、台阶数、坡道与电梯位置均为示例参数，尺寸与参数取自公开规范推荐值。</li>
+        <li><span class="pill">未开展</span><b>用户测试：</b>未开展目标用户任务测试，<b>未邀请轮椅使用者或视障用户参与测试</b>，无任务完成率、耗时或主观量表数据。</li>
+      </ul>
+      <p><b>后续计划：</b></p>
+      <ul>
+        <li><span class="pill">计划</span>邀请无障碍设计或建筑设计专业人员审阅参数取值与权重设定，并回填规范条款号。负责人：吴昊（团队负责人）；时间：赛后 1 个月内。</li>
+        <li><span class="pill">计划</span>选取一处真实校园建筑开展现场测绘，用实测尺寸替换示例参数。负责人：吴昊（团队负责人）；时间：赛后 2 个月内。</li>
+        <li><span class="pill">计划</span>邀请轮椅使用者与视障用户参与任务测试，记录完成率、耗时与主观反馈。负责人：吴昊（团队负责人）；时间：赛后 2 个月内。</li>
+      </ul>
+      <p><b>一句话原则：本材料的表述与作品实际完成状态一致，未开展的专业审阅、实地测绘与用户测试均如实列为后续工作，未以任何形式宣称已完成。</b></p>
+    </details>
+    <details><summary>7 · 数据与安全说明</summary>
+      <ul>
+        <li><b>不采集个人信息：</b>无账号、无注册登录、不要求姓名 / 学号 / 手机号 / 位置授权，不读取设备信息。</li>
+        <li><b>不上传：</b>页面<b>无任何网络请求</b>——没有 <code>fetch</code> / <code>XMLHttpRequest</code> / 外链脚本 / 外链字体 / 图片资源，全部计算在浏览器本地完成；导出的报告与地图文件由使用者手动保存到本机。</li>
+        <li><b>本机存储内容：</b>自定义地图（localStorage 键 <code>tongpin.map.v1</code>）与界面偏好（无障碍模式、语音、高对比、大字、减少动效，键 <code>tongpin.prefs.v1</code>），仅本设备可见，不同设备之间不同步。</li>
+        <li><b>可一键清除：</b>点下方按钮即删除上述两个键并恢复内置示例地图，无需卸载或清理浏览器设置。存储不可用时（隐私模式 / 空间不足），页面降级为"本次会话内有效、关闭即失效"并给出文字提示，不静默失败。</li>
+        <li><b>已知限制与风险：</b>localStorage 为明文存储，公用电脑使用后建议点清除；本作品未做加密与访问控制，<b>不应用于保存真实个人信息</b>；自定义地图若录入真实建筑，其尺寸与设施信息由录入者负责核实。</li>
+      </ul>
+      <p><button class="btn" type="button" id="clearData">清除本地数据（地图与偏好）</button></p>
+    </details>
+    <details><summary>8 · 版本与变更记录（过程留痕）</summary>
+      <p class="muted">版本号与功能范围以本页当前状态为准；日期与公开仓库的提交历史一致，可逐次核对。</p>
+      <ul>
+        <li><b>v1 初始原型（2026-10-17）</b>：单层网格、单一最短路径、以鼠标点选为主通道；完成"能算出一条路线"的最小闭环。</li>
+        <li><b>v2 功能深化（2026-10-18）</b>：扩展为两层 / 3 类垂直交通 / 6 个目的地；引入偏好驱动的加权寻路与三策略并排对比；补齐键盘、文字指令、语音播报三条替代通道；新增行程报告导出（JSON / 文本）。</li>
+        <li><b>v3 规范与材料完善（2026-10-18）</b>：新增需求分析与用户画像可视化、无障碍自检清单、数据与安全说明与一键清除、自定义校园地图编辑与导入导出、预计时间与风险提示、版本变更记录；同步把"验证与测试"改为"已完成 / 尚未开展 / 后续计划"分栏如实表述。</li>
+        <li><b>v4 提交版整理（2026-10-22）</b>：补齐团队原创贡献清单与真实署名；版本记录补入实际日期，并把原先「没有仓库、不提供提交记录」的判断更正为公开仓库地址——七件作品共用同一仓库，本页对应仓库中的 <code>sync.html</code>；全文去除占位表述。</li>
+      </ul>
+      <p class="muted">说明：本页源码托管于公开仓库，以上变更与提交历史逐一对应，可逐次核对：github.com/junming49/blue-boundary-coral-reef/commits/main 。七件作品各自为仓库中的一个独立页面，本页文件名为 <code>sync.html</code>。</p>
+    </details>
+    <details><summary>9 · AI 使用与素材说明</summary>
+      <ul>
+        <li><b>AI 辅助部分：</b>代码实现与重构、界面文案润色、说明文档结构整理由 AI 辅助完成，全部代码经人工审阅与自查。</li>
+        <li><b>素材来源：</b>所有图形（网格、图标、配色、动效）均由 CSS 与代码绘制，未使用第三方图片、字体、地图瓦片或图标库。</li>
+        <li><b>团队原创贡献：</b>主创 吴昊（团队负责人）：整体设计、寻路权重取值与四通道交互的统一状态机、最终把关。技术实现 徐志：加权寻路算法、平面图与点位数据、自定义地图编辑、四通道交互、无障碍自检面板。内容与设计 苏张柏绮：需求画像、数据安全说明、界面与版式。全部代码、文案与视觉元素由团队自行完成，未使用第三方图片、字体、图标或音频素材。</li>
+      </ul>
+    </details>
+    <details><summary>10 · 边界声明</summary>
+      <ul>
+        <li>本页所有楼层、网格、门宽、台阶数、坡道与电梯位置均为<b>虚构示例数据</b>，用于算法与交互演示，<b>不代表任何真实建筑</b>。</li>
+        <li>本作品<b>不连接真实校园地图、GPS / 蓝牙定位、校园 POI 或任何后台服务</b>，不具备实时定位与实时路况能力。</li>
+        <li>本作品<b>不是无障碍合规证明</b>，其输出不可作为建筑设计、验收或无障碍改造的依据；真实场景须以现场测绘与相关规范核验结果为准。</li>
+      </ul>
+    </details>
+  </div>
+</aside>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ========== 一、虚构地图数据（非真实测绘） ========== */
+  var W = 7, H = 5;
+
+  var FLOORS = [
+    { id: 0, name: '一楼', blocks: ['3,1', '4,1', '3,2', '4,2'], narrow: ['5,3'] },
+    { id: 1, name: '二楼', blocks: ['3,0', '3,1', '4,1', '3,2', '4,2'], narrow: ['2,3'] }
+  ];
+
+  // 垂直连接：楼梯（有台阶）/ 坡道（无台阶、绕行更长）/ 电梯（无台阶、含候梯代价）
+  var LINKS = [
+    { id: 'stair', type: 'stair', label: '楼梯', steps: 8, a: { f: 0, x: 1, y: 4 }, b: { f: 1, x: 1, y: 4 } },
+    { id: 'ramp', type: 'ramp', label: '坡道', steps: 0, a: { f: 0, x: 6, y: 0 }, b: { f: 1, x: 6, y: 0 } },
+    { id: 'lift', type: 'elevator', label: '电梯', steps: 0, a: { f: 0, x: 6, y: 2 }, b: { f: 1, x: 6, y: 2 } }
+  ];
+
+  var PLACES = [
+    { n: '图书馆', f: 1, x: 0, y: 2, alias: ['图书馆', '图书', '阅览', '借阅', '自习'], door: '门宽概念值约 90cm', ramp: '可经电梯或坡道到达，无需台阶', quiet: '安静阅读区', desc: '二层西侧阅览空间，桌椅排列较密，转弯空间有限。' },
+    { n: '报告厅', f: 0, x: 2, y: 0, alias: ['报告厅', '礼堂', '讲堂', '大教室', '会议厅'], door: '门宽概念值约 120cm', ramp: '主入口示意有台阶，轮椅建议走坡道或电梯', quiet: '活动期间人流较多', desc: '一层北侧集会空间，散场时门厅拥挤，建议预留时间。' },
+    { n: '无障碍卫生间', f: 0, x: 4, y: 4, alias: ['无障碍卫生间', '厕所', '卫生间', '洗手间', '无障碍厕所', 'toilet', 'wc'], door: '门宽概念值约 90cm', ramp: '平层直达，无台阶', quiet: '独立隔间，相对安静', desc: '一层南侧尽头，内侧示意扶手与回转空间。' },
+    { n: '电梯厅', f: 0, x: 6, y: 2, alias: ['电梯厅', '电梯', '升降梯', '直梯'], door: '轿厢门宽概念值约 90cm', ramp: '可直达二层，适合轮椅与行李', quiet: '候梯时人声较多', desc: '一层东侧，轿厢可直达二层同一位置。' },
+    { n: '南门', f: 0, x: 0, y: 4, alias: ['南门', '大门', '正门', '入口', '南门入口'], door: '门宽概念值约 150cm', ramp: '平开无台阶', quiet: '上下课高峰人流较多', desc: '一层南侧主入口，本演示的默认起点。' },
+    { n: '休息区', f: 1, x: 6, y: 4, alias: ['休息区', '休息', '中庭', '沙发区', '座椅区'], door: '入口宽度概念值约 100cm', ramp: '可经电梯或坡道到达', quiet: '相对安静', desc: '二层东侧，靠近电梯厅出口，设有低位座椅示意。' }
+  ];
+
+  // 偏好模式：影响路线权重与提示通道
+  var MODES = {
+    wheelchair: { name: '轮椅模式', stair: Infinity, narrow: 4, weight: '楼梯不可通行（无穷代价）；坡道与电梯可通行；窄通道代价 +4，倾向更宽通道。', ui: '界面不改变字号；无台阶为硬约束。' },
+    lowvision: { name: '低视力模式', stair: 6, narrow: 2, weight: '楼梯代价 +6、窄通道代价 +2，倾向电梯与坡道；台阶在弱视条件下风险更高。', ui: '界面自动切换到最大字号 + 高对比 + 语音播报优先（浏览器不支持时降级为文字提示）。' },
+    hearing: { name: '听障模式', stair: 0, narrow: 0, weight: '听觉偏好不改变通行条件，因此路线权重与默认一致——这是三条策略保持「纯距离 / 无台阶 / 少台阶」差异最清晰的一种模式。', ui: '界面关闭语音播报，改用视觉高亮闪烁 + 文字提示条呈现全部播报内容。' }
+  };
+
+  // 路线策略：与偏好模式叠加
+  var STRATEGIES = [
+    { id: 'shortest', name: '最短路径', stair: 0, narrow: 0, rampBonus: 0, desc: '只按距离与换乘代价最小规划，允许经过楼梯。' },
+    { id: 'accessible', name: '无障碍优先', stair: 40, narrow: 4, rampBonus: 4, desc: '要求无台阶、避开窄通道、优先坡道（无需候梯与轿厢空间）。' },
+    { id: 'fewsteps', name: '少台阶', stair: 20, narrow: 1, rampBonus: 0, desc: '台阶数最少优先；台阶数相同时取总步数最少。' }
+  ];
+
+  var LINK_BASE = { stair: 1, ramp: 5, elevator: 6 }; // 坡道含绕行代价；电梯含候梯代价（均为示例参数）
+
+  /* 内置示例地图快照：用于首次载入与"恢复内置示例"。loadMap 会深拷贝，不会被后续编辑改动 */
+  var BUILTIN_MAP = { name: '内置示例：虚构实验楼', w: W, h: H, floors: FLOORS, links: LINKS, places: PLACES };
+  var MAP_KEY = 'tongpin.map.v1', PREF_KEY = 'tongpin.prefs.v1';
+
+  // 载入地图数据：深拷贝 + 字段补全，成功后重设 W / H
+  function loadMap(src) {
+    if (!src) return false;
+    try {
+      var o = JSON.parse(JSON.stringify(src));
+      W = o.w; H = o.h;
+      FLOORS = o.floors; LINKS = o.links; PLACES = o.places;
+      FLOORS.forEach(function (f) {
+        f.blocks = Array.isArray(f.blocks) ? f.blocks : [];
+        f.narrow = Array.isArray(f.narrow) ? f.narrow : [];
+        f.name = f.name || ('第' + (f.id + 1) + '层');
+      });
+      LINKS.forEach(function (l) { if (typeof l.steps !== 'number') l.steps = 0; });
+      PLACES.forEach(function (p) {
+        p.alias = Array.isArray(p.alias) && p.alias.length ? p.alias : [p.n];
+        p.ramp = p.ramp || '自定义地点，坡道情况待现场确认';
+        p.door = p.door || '自定义地点，门宽待现场确认';
+        p.quiet = p.quiet || '自定义地点，环境待现场确认';
+        p.desc = p.desc || '由使用者录入的地点，设施信息尚未核实。';
+      });
+      return true;
+    } catch (e) { return false; }
+  }
+
+  /* ========== 二、状态 ========== */
+  var state = {
+    pos: { f: 0, x: 0, y: 4 },      // 当前位置（默认南门）
+    goal: null,                      // 目的地
+    origin: { f: 0, x: 0, y: 4 },    // 本次路线起点
+    mode: 'wheelchair',
+    strategy: 'shortest',
+    viewFloor: 0,
+    idx: 0,                          // 当前在采用路线上的下标
+    results: {},                     // 三种策略结果
+    voice: false, contrast: false, large: false, motion: false,
+    visited: [],
+    mapName: '内置示例：虚构实验楼',
+    mapSource: 'builtin'          // builtin = 内置示例；custom = 使用者录入并保存在本机
+  };
+
+  var speechOK = (typeof window !== 'undefined') && ('speechSynthesis' in window) && (typeof window.SpeechSynthesisUtterance === 'function');
+
+  /* ========== 三、通用工具 ========== */
+  function $(id) { return document.getElementById(id); }
+  function nodeKey(n) { return n.f + '|' + n.x + ',' + n.y; }
+  function sameNode(a, b) { return a && b && a.f === b.f && a.x === b.x && a.y === b.y; }
+  function floorDef(f) { return FLOORS[f] || { id: f, name: '第' + (f + 1) + '层', blocks: [], narrow: [] }; }
+  function isBlock(n) { return floorDef(n.f).blocks.indexOf(n.x + ',' + n.y) >= 0; }
+  function isNarrow(n) { return floorDef(n.f).narrow.indexOf(n.x + ',' + n.y) >= 0; }
+  function inBounds(n) { return n.f >= 0 && n.f < FLOORS.length && n.x >= 0 && n.x < W && n.y >= 0 && n.y < H; }
+  function linkAt(n) {
+    for (var i = 0; i < LINKS.length; i++) {
+      if (sameNode(LINKS[i].a, n) || sameNode(LINKS[i].b, n)) return LINKS[i];
+    }
+    return null;
+  }
+  function otherEnd(l, n) { return sameNode(l.a, n) ? l.b : l.a; }
+  function placeAt(n) {
+    for (var i = 0; i < PLACES.length; i++) {
+      if (PLACES[i].f === n.f && PLACES[i].x === n.x && PLACES[i].y === n.y) return PLACES[i];
+    }
+    return null;
+  }
+  function nodeText(n) {
+    var p = placeAt(n);
+    return floorDef(n.f).name + ' 第' + (n.y + 1) + '行第' + (n.x + 1) + '列' + (p ? '（' + p.n + '）' : '');
+  }
+  function goalNode() { return { f: state.goal.f, x: state.goal.x, y: state.goal.y }; }
+  function strategyDef(id) {
+    for (var i = 0; i < STRATEGIES.length; i++) if (STRATEGIES[i].id === id) return STRATEGIES[i];
+    return STRATEGIES[0];
+  }
+  function dirOf(a, b) { if (b.x > a.x) return '东'; if (b.x < a.x) return '西'; if (b.y > a.y) return '南'; return '北'; }
+
+  /* ========== 三·补、时间估算、风险提示与无障碍自检清单 ========== */
+  // 估算规则（示例代码值，未做实测校准）：每步 0.8 米、每步 1.2 秒
+  var STEP_M = 0.8, STEP_S = 1.2;
+  var EST_RULE = '距离 = 步数 × 0.8 m；时间 = 步数 × 1.2 秒。电梯候梯与台阶上下耗时未计入，未做实测校准，实际因人而异。';
+  function estimate(st) {
+    return { meters: Math.round(st.moves * STEP_M * 10) / 10, seconds: Math.round(st.moves * STEP_S) };
+  }
+  function fmtDur(s) {
+    if (s < 60) return '约 ' + s + ' 秒';
+    var m = Math.floor(s / 60), r = s % 60;
+    return '约 ' + m + ' 分' + (r ? ' ' + r + ' 秒' : '');
+  }
+
+  // 风险提示：由示例网格属性生成，明确要求实测前现场确认
+  function risksOf(st, mode) {
+    var out = [];
+    if (st.narrowCount > 0) out.push('经过 ' + st.narrowCount + ' 处窄通道，实测前请现场确认净宽');
+    if (st.steps > 0) out.push('含 ' + st.steps + ' 级台阶' + (mode === 'wheelchair' ? '，轮椅请改走坡道或电梯路线' : ''));
+    if (st.lift) out.push('需乘电梯，含候梯时间与轿厢空间限制');
+    if (st.ramp) out.push('经坡道绕行，距离更长但无台阶');
+    if (!out.length) out.push('示例网格中未标记台阶与窄通道；仍建议现场确认');
+    return out;
+  }
+
+  // 无障碍自检清单：团队自行核对结果（导出报告时附带）
+  var A11Y_ITEMS = [
+    { k: '键盘可达', d: '全部控件均为原生 button / a / input / summary，可 Tab / Shift+Tab 遍历；方向键移动位置，Esc 关闭抽屉并归还焦点。', s: '已实现' },
+    { k: '焦点可见', d: '统一 :focus-visible 三像素高对比焦点环，覆盖按钮、输入、链接、详情标题与可编辑网格格。', s: '已实现' },
+    { k: '色彩对比', d: '提供高对比模式开关，低视力模式自动开启；正文与背景按 WCAG AA 对比度目标自行核对（未做仪器测量）。', s: '已实现' },
+    { k: '减少动效', d: '尊重系统 prefers-reduced-motion，并提供手动「减少动效」开关，关闭后禁用过渡与闪烁动画。', s: '已实现' },
+    { k: '读屏状态提示', d: '关键状态经 aria-live 区域播报；网格格带 aria-label，当前位置带 aria-current，抽屉带 dialog / aria-modal。', s: '已实现' },
+    { k: '语音播报开关', d: '语音可开可关；浏览器不支持 Web Speech 时按钮置灰并降级为文字提示，不做静默失败。', s: '已实现' },
+    { k: '文字别名容错', d: '文字指令支持前缀与别名（如「卫生间」「礼堂」「升降梯」），未识别时回显可用地点列表而非无响应。', s: '已实现' },
+    { k: '错误恢复提示', d: '不可通行、无可达路线、JSON 导入失败、本机存储不可用等均有明确文字提示，并保持当前状态可继续使用。', s: '已实现' },
+    { k: '数据最小化与本地化', d: '无账号、无网络请求，地图与偏好只存本机 localStorage，提供一键清除入口。', s: '已实现' },
+    { k: '第三方无障碍审计', d: '未委托第三方机构或专业审计人员出具无障碍合规报告，本表为团队自行核对，未取得任何认证。', s: '未开展' }
+  ];
+
+  /* ========== 四、寻路：Dijkstra + 偏好权重 ========== */
+  function neighbors(n) {
+    var out = [], d = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+    for (var i = 0; i < d.length; i++) {
+      var t = { f: n.f, x: n.x + d[i][0], y: n.y + d[i][1] };
+      if (inBounds(t) && !isBlock(t)) out.push({ node: t, link: null });
+    }
+    var l = linkAt(n);
+    if (l) out.push({ node: otherEnd(l, n), link: l });
+    return out;
+  }
+
+  // 进入 target 节点的代价；linkUsed 为本次移动使用的垂直连接
+  function moveCost(target, linkUsed, mode, strategy) {
+    var mw = MODES[mode] || MODES.hearing;
+    var sw = strategyDef(strategy);
+    var c = 1;
+    if (isNarrow(target)) c += mw.narrow + sw.narrow;
+    if (linkUsed) {
+      if (linkUsed.type === 'stair') {
+        var pen = mw.stair + sw.stair;
+        if (!isFinite(pen)) return Infinity;          // 轮椅模式：楼梯不可通行
+        c += LINK_BASE.stair + pen;
+      } else if (linkUsed.type === 'ramp') {
+        c += LINK_BASE.ramp - sw.rampBonus;           // 无障碍优先：抵消部分绕行代价
+      } else {
+        c += LINK_BASE.elevator;
+      }
+    }
+    return c;
+  }
+
+  function planPath(from, to, mode, strategy) {
+    if (sameNode(from, to)) return { path: [{ f: from.f, x: from.x, y: from.y }], linkSeq: [], cost: 0 };
+    var dist = {}, prev = {}, startKey = nodeKey(from), endKey = nodeKey(to);
+    dist[startKey] = 0;
+    var queue = [{ n: from, d: 0 }], guard = 0;
+    while (queue.length && guard++ < 20000) {
+      queue.sort(function (a, b) { return a.d - b.d; });
+      var cur = queue.shift(), ck = nodeKey(cur.n);
+      if (cur.d > dist[ck]) continue;
+      if (ck === endKey) break;
+      var nb = neighbors(cur.n);
+      for (var i = 0; i < nb.length; i++) {
+        var c = moveCost(nb[i].node, nb[i].link, mode, strategy);
+        if (!isFinite(c)) continue;
+        var nd = cur.d + c, k = nodeKey(nb[i].node);
+        if (!(k in dist) || nd < dist[k]) {
+          dist[k] = nd;
+          prev[k] = { pkey: ck, pnode: cur.n, link: nb[i].link };
+          queue.push({ n: nb[i].node, d: nd });
+        }
+      }
+    }
+    if (!(endKey in dist)) return null;
+    var nodes = [to], linkSeq = [], k2 = endKey, safe = 0;
+    while (k2 !== startKey && safe++ < 5000) {
+      var p = prev[k2];
+      if (!p) return null;
+      nodes.unshift(p.pnode);
+      linkSeq.unshift(p.link);
+      k2 = p.pkey;
+    }
+    var cost = 0;
+    for (var j = 0; j < linkSeq.length; j++) cost += moveCost(nodes[j + 1], linkSeq[j], mode, strategy);
+    return { path: nodes, linkSeq: linkSeq, cost: cost };
+  }
+
+  function pathStats(nodes, linkSeq) {
+    var steps = 0, turns = 0, ramp = false, stair = false, lift = false, prevDir = null;
+    for (var i = 0; i < linkSeq.length; i++) {
+      var l = linkSeq[i];
+      if (l) {
+        if (l.type === 'stair') { steps += l.steps; stair = true; }
+        if (l.type === 'ramp') ramp = true;
+        if (l.type === 'elevator') lift = true;
+        prevDir = null; // 换乘后重新计算方向
+        continue;
+      }
+      var dir = dirOf(nodes[i], nodes[i + 1]);
+      if (prevDir && prevDir !== dir) turns++;
+      prevDir = dir;
+    }
+    var narrowCount = 0;
+    for (var t = 0; t < nodes.length; t++) if (isNarrow(nodes[t])) narrowCount++;
+    return { moves: nodes.length - 1, steps: steps, turns: turns, ramp: ramp, stair: stair, lift: lift, narrowCount: narrowCount };
+  }
+
+  // 把节点序列压缩成自然语言指令
+  function buildSteps(nodes, linkSeq) {
+    if (nodes.length <= 1) {
+      return [{ text: '已在' + (placeAt(nodes[0]) ? placeAt(nodes[0]).n : '当前位置') + '，无需移动。', endIndex: 0 }];
+    }
+    var list = [], startP = placeAt(nodes[0]);
+    list.push({
+      text: '从' + (startP ? startP.n + '（' + floorDef(nodes[0].f).name + '）' : nodeText(nodes[0])) + '出发',
+      endIndex: 0
+    });
+    var i = 0;
+    while (i < linkSeq.length) {
+      var l = linkSeq[i];
+      if (l) {
+        var to = nodes[i + 1];
+        list.push({
+          text: '经' + l.label + (to.f > nodes[i].f ? '上' : '下') + '行至' + floorDef(to.f).name +
+            (l.type === 'stair' ? '（示意约 ' + l.steps + ' 级台阶）' : ''),
+          endIndex: i + 1
+        });
+        i++;
+        continue;
+      }
+      var d = dirOf(nodes[i], nodes[i + 1]), j = i;
+      while (j < linkSeq.length && !linkSeq[j] && dirOf(nodes[j], nodes[j + 1]) === d) j++;
+      var last = nodes[j], lp = placeAt(last);
+      list.push({ text: '向' + d + '走 ' + (j - i) + ' 格，到' + (lp ? lp.n : '（' + (last.x + 1) + ',' + (last.y + 1) + '）'), endIndex: j });
+      i = j;
+    }
+    var gp = placeAt(nodes[nodes.length - 1]);
+    list.push({ text: '到达' + (gp ? gp.n : '目的地') + '（' + floorDef(nodes[nodes.length - 1].f).name + '）', endIndex: nodes.length - 1 });
+    return list;
+  }
+
+  function signature(nodes) { return nodes.map(nodeKey).join('>'); }
+
+  /* ========== 五、规划与采用 ========== */
+  function replan() {
+    state.origin = { f: state.pos.f, x: state.pos.x, y: state.pos.y };
+    state.results = {};
+    var sigs = {};
+    STRATEGIES.forEach(function (s) {
+      var r = planPath(state.pos, goalNode(), state.mode, s.id);
+      if (!r) { state.results[s.id] = null; return; }
+      state.results[s.id] = {
+        path: r.path, linkSeq: r.linkSeq, cost: r.cost,
+        stats: pathStats(r.path, r.linkSeq),
+        steps: buildSteps(r.path, r.linkSeq),
+        sig: signature(r.path)
+      };
+      if (sigs[r.path.map(nodeKey).join('>')] !== undefined) state.results[s.id].dupOf = sigs[signature(r.path)];
+      else sigs[signature(r.path)] = s.id;
+    });
+    if (!state.results[state.strategy]) {
+      for (var i = 0; i < STRATEGIES.length; i++) {
+        if (state.results[STRATEGIES[i].id]) { state.strategy = STRATEGIES[i].id; break; }
+      }
+    }
+    state.idx = 0;
+  }
+
+  function adopted() { return state.results[state.strategy] || null; }
+
+  function adopt(id) {
+    state.strategy = id;
+    state.idx = 0;
+    render();
+    savePrefs();
+    var r = adopted();
+    if (r) announce('已采用' + strategyDef(id).name + '路线，共 ' + r.stats.moves + ' 步，台阶 ' + r.stats.steps + ' 级。');
+    else announce('该策略在当前偏好下没有可达路线。');
+  }
+
+  /* ========== 六、播报：语音 / 视觉 / 文字 ========== */
+  function announce(msg) {
+    $('live').textContent = msg;
+    var box = $('vibox');
+    box.textContent = '提示：' + msg;
+    box.classList.remove('flash');
+    void box.offsetWidth;
+    box.classList.add('flash');
+    logLine(msg);
+    if (state.mode === 'hearing' || !state.voice || !speechOK) return; // 听障模式或未开启：仅文字 + 视觉
+    try {
+      window.speechSynthesis.cancel();
+      var u = new window.SpeechSynthesisUtterance(msg);
+      u.lang = 'zh-CN';
+      window.speechSynthesis.speak(u);
+    } catch (e) { /* 语音失败时已保留文字提示 */ }
+  }
+  function logLine(msg) {
+    var el = $('log');
+    el.textContent = '路线记录：' + msg + '\n' + el.textContent.replace(/^路线记录：\n?/, '');
+  }
+
+  /* ========== 七、渲染 ========== */
+  function renderMap() {
+    var map = $('map');
+    map.innerHTML = '';
+    map.style.gridTemplateColumns = 'repeat(' + W + ',1fr)';
+    map.setAttribute('aria-rowcount', H);
+    map.setAttribute('aria-colcount', W);
+    $('floorName').textContent = floorDef(state.viewFloor).name;
+    $('mapTitle').textContent = state.mapName;
+    $('mapNote').textContent = '楼梯对轮椅模式不可通行；坡道可通行但绕行距离更长。' + (state.mapSource === 'custom'
+      ? '当前为使用者录入的自定义地图，尺寸与设施信息由录入者提供，未经现场核实，不作为合规依据。'
+      : '以上均为演示用虚构布局，不对应任何真实建筑。');
+    $('mapSrc').textContent = (state.mapSource === 'custom' ? '自定义地图' : '内置示例') + ' · ' + W + '×' + H + '×' + FLOORS.length;
+    renderTabs();
+    var cur = adopted();
+    var pathSet = {};
+    if (cur) cur.path.forEach(function (n) { if (n.f === state.viewFloor) pathSet[n.x + ',' + n.y] = true; });
+
+    for (var y = 0; y < H; y++) {
+      for (var x = 0; x < W; x++) {
+        var n = { f: state.viewFloor, x: x, y: y }, k = x + ',' + y;
+        var el = document.createElement('div');
+        el.className = 'cell';
+        el.setAttribute('role', 'gridcell');
+        var desc = '第' + (y + 1) + '行第' + (x + 1) + '列';
+
+        if (isBlock(n)) {
+          el.classList.add('block');
+          el.innerHTML = '封闭<span>不可通行</span>';
+          desc += '，封闭区域，不可通行';
+        } else {
+          var lk = linkAt(n);
+          if (lk) {
+            el.classList.add(lk.type === 'stair' ? 'stair' : (lk.type === 'ramp' ? 'ramp' : 'lift'));
+            el.innerHTML = lk.label + '<span>' + (lk.type === 'stair' ? lk.steps + ' 级' : (lk.type === 'ramp' ? '无台阶' : '直达')) + '</span>';
+            desc += '，' + lk.label + '，可' + (n.f === 0 ? '上二楼' : '下一楼');
+          }
+          if (isNarrow(n)) { el.classList.add('narrow'); desc += '，窄通道'; }
+          if (pathSet[k]) el.classList.add('path');
+          var pl = placeAt(n);
+          if (pl) {
+            el.classList.add('goal');
+            el.innerHTML = pl.n + '<span>' + floorDef(pl.f).name + '</span>';
+            desc += '，' + pl.n + (isSameGoal(pl) ? '，当前目的地' : '');
+          }
+          if (sameNode(n, state.origin)) el.classList.add('start');
+          if (sameNode(n, state.pos)) {
+            el.classList.add('here');
+            el.setAttribute('aria-current', 'location');
+            desc += '，当前位置';
+          }
+        }
+        el.setAttribute('aria-label', desc);
+        map.appendChild(el);
+      }
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('[data-floor]'), function (b) {
+      b.setAttribute('aria-pressed', String(Number(b.dataset.floor) === state.viewFloor));
+      b.classList.toggle('on', Number(b.dataset.floor) === state.viewFloor);
+    });
+  }
+  function isSameGoal(p) { return p === state.goal; }
+
+  // 楼层 / 编辑楼层切换按钮：随地图层数动态生成（1–3 层）；结构未变时不重建，避免焦点丢失
+  var tabSig = '';
+  function renderTabs(force) {
+    var sig = FLOORS.map(function (f) { return f.id + ':' + f.name; }).join('|');
+    if (sig === tabSig && !force) return;
+    tabSig = sig;
+    var ft = $('floorTabs');
+    if (ft) {
+      ft.innerHTML = '';
+      FLOORS.forEach(function (f) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'btn'; b.dataset.floor = String(f.id);
+        b.textContent = f.name;
+        b.onclick = function () { state.viewFloor = f.id; renderMap(); };
+        ft.appendChild(b);
+      });
+    }
+    var et = $('edTabs');
+    if (et) {
+      et.innerHTML = '';
+      FLOORS.forEach(function (f) {
+        var e = document.createElement('button');
+        e.type = 'button'; e.className = 'btn'; e.dataset.efloor = String(f.id);
+        e.textContent = '编辑' + f.name;
+        e.onclick = function () { edit.floor = f.id; renderEditor(); };
+        et.appendChild(e);
+      });
+    }
+  }
+
+  function renderModes() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-mode]'), function (b) {
+      var on = b.dataset.mode === state.mode;
+      b.setAttribute('aria-pressed', String(on));
+      b.classList.toggle('on', on);
+    });
+    var m = MODES[state.mode];
+    $('modeReason').innerHTML = '<b>' + m.name + '</b><br>路线权重：' + m.weight + '<br>提示通道：' + m.ui;
+  }
+
+  function renderDest() {
+    var box = $('dest');
+    box.innerHTML = '';
+    PLACES.forEach(function (p) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'chip';
+      b.setAttribute('aria-pressed', String(p === state.goal));
+      b.textContent = p.n + '（' + floorDef(p.f).name + '）';
+      b.onclick = function () { setGoal(p); };
+      box.appendChild(b);
+    });
+    $('destHint').textContent = PLACES.length + ' 个地点分布在 ' + FLOORS.length + ' 层；选中后查看设施说明与三条策略路线。';
+    var p = state.goal;
+    $('placeInfo').innerHTML = '<b>' + p.n + '</b> · ' + floorDef(p.f).name + ' 第' + (p.y + 1) + '行第' + (p.x + 1) + '列<br>' +
+      '坡道：' + p.ramp + '<br>门宽：' + p.door + '<br>环境：' + p.quiet + '<br>' + p.desc;
+  }
+
+  function renderCompare() {
+    var box = $('cmp');
+    box.innerHTML = '';
+    STRATEGIES.forEach(function (s) {
+      var r = state.results[s.id];
+      var el = document.createElement('div');
+      el.className = 'cmp-item' + (state.strategy === s.id ? ' on' : '');
+      if (!r) {
+        el.innerHTML = '<div class="cmp-h"><b>' + s.name + '</b></div><p class="cmp-note">当前偏好下无可达路线</p>';
+        box.appendChild(el);
+        return;
+      }
+      var st = r.stats, dup = r.dupOf ? strategyDef(r.dupOf).name : '';
+      var est = estimate(st), rk = risksOf(st, state.mode);
+      el.innerHTML =
+        '<div class="cmp-h"><b>' + s.name + '</b>' + (state.strategy === s.id ? '<span class="tag">已采用</span>' : '') + '</div>' +
+        '<div class="cmp-m"><span>步数</span><b>' + st.moves + '</b></div>' +
+        '<div class="cmp-m"><span>台阶数</span><b>' + st.steps + ' 级</b></div>' +
+        '<div class="cmp-m"><span>转弯数</span><b>' + st.turns + '</b></div>' +
+        '<div class="cmp-m"><span>坡道</span><b>' + (st.ramp ? '经过' : '不经过') + '</b></div>' +
+        '<div class="cmp-m"><span>距离</span><b>' + est.meters + ' m</b></div>' +
+        '<div class="cmp-m"><span>预计时间</span><b>' + fmtDur(est.seconds) + '</b></div>' +
+        '<p class="cmp-note">' + s.desc + (dup ? '<br>与「' + dup + '」一致：本偏好下无更优替代。' : '') +
+        (st.steps > 0 && s.id !== 'shortest' ? '<br>注意：本偏好下无完全无台阶路线，已退化为台阶最少。' : '') + '</p>' +
+        '<p class="cmp-note risk">风险：' + rk.slice(0, 2).join('；') + '。</p>';
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'btn';
+      btn.setAttribute('aria-pressed', String(state.strategy === s.id));
+      btn.textContent = state.strategy === s.id ? '当前采用' : '采用这条';
+      btn.onclick = function () { adopt(s.id); };
+      el.appendChild(btn);
+      box.appendChild(el);
+    });
+    var m = MODES[state.mode];
+    var stairTxt = isFinite(m.stair) ? ('楼梯额外代价 +' + m.stair) : '楼梯不可通行（无穷代价）';
+    $('cmpWhy').innerHTML = '<b>为什么三条路线不同？</b><br>本模式：' + stairTxt + '，窄通道额外代价 +' + m.narrow +
+      '。垂直连接基础代价：楼梯 ' + LINK_BASE.stair + '（另按各楼梯自身台阶数叠加惩罚）、坡道 ' + LINK_BASE.ramp +
+      '（含绕行，因此坡道路线通常更长）、电梯 ' + LINK_BASE.elevator + '（含候梯）。策略在此基础上再叠加台阶惩罚与窄通道惩罚。' +
+      '<br><b>预计时间估算规则（示例，非实测）：</b>' + EST_RULE;
+  }
+
+  function renderNav() {
+    var r = adopted(), box = $('route');
+    if (!r) {
+      box.innerHTML = '<b>当前偏好下没有可达路线</b> · 请更换目的地或切换无障碍偏好。';
+      $('steps').innerHTML = '';
+      return;
+    }
+    var atGoal = sameNode(state.pos, goalNode());
+    var curStep = currentStepIndex(r.steps, state.idx);
+    var tipIdx = curStep;
+    if (tipIdx < r.steps.length - 1 && r.steps[tipIdx].endIndex <= state.idx) tipIdx++; // 当前步已走完则提示下一步
+    var nextTip = atGoal ? '' : '<br>下一步：' + r.steps[tipIdx].text;
+    var est = estimate(r.stats);
+    box.innerHTML = '<b>' + state.goal.n + '</b> · 策略：' + strategyDef(state.strategy).name +
+      '<br>当前位置：' + nodeText(state.pos) +
+      '<br>' + (atGoal ? '已到达目的地。' : '距终点还有 ' + (r.stats.moves - state.idx) + ' 步') + nextTip +
+      '<br>预计：约 ' + est.meters + ' m、' + fmtDur(est.seconds) + '（示例规则：' + EST_RULE + '）' +
+      '<br><span class="risk">风险提示：' + risksOf(r.stats, state.mode).join('；') + '。</span>';
+
+    var ol = $('steps');
+    ol.innerHTML = '';
+    r.steps.forEach(function (s, i) {
+      var li = document.createElement('li');
+      li.textContent = (i + 1) + '. ' + s.text;
+      if (i === curStep) li.className = 'cur';
+      else if (i < curStep) li.className = 'done';
+      ol.appendChild(li);
+    });
+  }
+  function currentStepIndex(steps, idx) {
+    for (var i = 0; i < steps.length; i++) if (steps[i].endIndex >= idx) return i;
+    return steps.length - 1;
+  }
+
+  function renderToggles() {
+    var v = $('voice');
+    var vDisabled = state.mode === 'hearing' || !speechOK;
+    v.disabled = vDisabled;
+    v.setAttribute('aria-pressed', String(state.voice && !vDisabled));
+    v.classList.toggle('on', state.voice && !vDisabled);
+    v.textContent = !speechOK ? '语音播报（浏览器不支持）' : (state.mode === 'hearing' ? '语音播报（听障模式关闭）' : (state.voice ? '语音播报：开' : '语音播报'));
+    $('contrast').setAttribute('aria-pressed', String(state.contrast));
+    $('contrast').classList.toggle('on', state.contrast);
+    $('large').setAttribute('aria-pressed', String(state.large));
+    $('large').classList.toggle('on', state.large);
+    $('motion').setAttribute('aria-pressed', String(state.motion));
+    $('motion').classList.toggle('on', state.motion);
+  }
+
+  function applyDisplay() {
+    document.body.classList.toggle('hi', state.contrast);
+    document.body.classList.toggle('reduce', state.motion);
+    var scale = state.mode === 'lowvision' ? 1.3 : (state.large ? 1.18 : 1);
+    document.documentElement.style.setProperty('--scale', String(scale));
+  }
+
+  function render() {
+    renderModes(); renderDest(); renderCompare(); renderNav(); renderMap(); renderToggles();
+  }
+
+  /* ========== 八、行为 ========== */
+  function setGoal(p) {
+    state.goal = p;
+    state.viewFloor = p.f;
+    replan();
+    render();
+    var r = adopted();
+    if (sameNode(state.pos, goalNode())) announce('已到达' + p.n + '。');
+    else if (r) announce('已规划到' + p.n + '，' + strategyDef(state.strategy).name + '路线 ' + r.stats.moves + ' 步，台阶 ' + r.stats.steps + ' 级。');
+    else announce('当前偏好下没有到' + p.n + '的可达路线。');
+  }
+
+  function setMode(id) {
+    if (!MODES[id]) return;
+    state.mode = id;
+    if (id === 'lowvision') { state.large = true; state.contrast = true; state.voice = speechOK; }
+    if (id === 'hearing') { state.voice = false; if (speechOK) { try { window.speechSynthesis.cancel(); } catch (e) {} } }
+    applyDisplay();
+    replan();
+    render();
+    savePrefs();
+    announce('已切换到' + MODES[id].name + '。' + MODES[id].weight);
+  }
+
+  function advanceStep() {
+    var r = adopted();
+    if (!r) { announce('没有可执行的路线，请更换目的地或偏好。'); return; }
+    if (sameNode(state.pos, goalNode())) { announce('已到达' + state.goal.n + '。'); return; }
+    if (state.idx >= r.path.length - 1) { announce('已到达' + state.goal.n + '。'); return; }
+    state.idx++;
+    state.pos = { f: r.path[state.idx].f, x: r.path[state.idx].x, y: r.path[state.idx].y };
+    state.viewFloor = state.pos.f;
+    state.visited.push(nodeText(state.pos));
+    render();
+    if (sameNode(state.pos, goalNode())) { announce('已到达' + state.goal.n + '。行程结束，可导出报告。'); return; }
+    var s = r.steps[currentStepIndex(r.steps, state.idx)];
+    announce('已前进一步，' + nodeText(state.pos) + '。下一步：' + s.text + '，还剩 ' + (r.stats.moves - state.idx) + ' 步。');
+  }
+
+  function manualMove(dx, dy) {
+    if (dx === 0 && dy === 0) { announce('当前位置：' + nodeText(state.pos) + '。'); return; }
+    var t = { f: state.pos.f, x: state.pos.x + dx, y: state.pos.y + dy };
+    if (!inBounds(t) || isBlock(t)) { announce('该方向不可通行，已保持在当前位置。'); return; }
+    state.pos = t;
+    state.viewFloor = t.f;
+    state.visited.push(nodeText(t));
+    replan();
+    render();
+    var r = adopted();
+    if (sameNode(state.pos, goalNode())) announce('已到达' + state.goal.n + '。');
+    else if (r) announce('已移动到' + nodeText(t) + '。' + strategyDef(state.strategy).name + '路线还剩 ' + r.stats.moves + ' 步。');
+    else announce('已移动到' + nodeText(t) + '，但当前偏好下没有可达路线。');
+  }
+
+  function runCommand() {
+    var raw = ($('cmd').value || '').trim();
+    if (!raw) { announce('请输入目的地名称，例如：去图书馆、去厕所、去南门。'); return; }
+    var v = raw.replace(/^(去|前往|导航到|我要去|带我去)/, '').replace(/[，。！？,.!?]$/, '').trim();
+    var hit = null;
+    PLACES.forEach(function (p) {
+      if (hit) return;
+      if (raw.indexOf(p.n) >= 0 || v.indexOf(p.n) >= 0) { hit = p; return; }
+      for (var i = 0; i < p.alias.length; i++) {
+        if (raw.indexOf(p.alias[i]) >= 0 || v.indexOf(p.alias[i]) >= 0) { hit = p; return; }
+      }
+    });
+    if (!hit) {
+      var list = PLACES.map(function (p) { return p.n; }).join('、');
+      announce('没有识别到地点「' + v + '」。可用地点：' + list + '。');
+      return;
+    }
+    $('cmd').value = '';
+    setGoal(hit);
+  }
+
+  function buildReport() {
+    var r = adopted(), est = r ? estimate(r.stats) : null;
+    return {
+      作品: '同频舱：多模态无障碍空间导航（网格演示）',
+      边界声明: '网格与参数为示例数据；不连接真实校园地图或定位，不作为无障碍合规证明',
+      导出时间: new Date().toISOString(),
+      地图来源: state.mapSource === 'custom'
+        ? ('自定义地图（使用者录入，保存在本机）· ' + state.mapName)
+        : '内置示例（虚构数据，不对应真实建筑）',
+      地图规模: W + '列 × ' + H + '行 × ' + FLOORS.length + '层，垂直交通 ' + LINKS.length + ' 处，目的地 ' + PLACES.length + ' 个',
+      偏好模式: MODES[state.mode].name,
+      采用策略: strategyDef(state.strategy).name,
+      起点: nodeText(state.origin),
+      终点: nodeText(goalNode()),
+      当前位置: nodeText(state.pos),
+      统计: r ? {
+        步数: r.stats.moves, 台阶数: r.stats.steps, 转弯数: r.stats.turns, 窄通道数: r.stats.narrowCount,
+        经过坡道: r.stats.ramp, 经过楼梯: r.stats.stair, 经过电梯: r.stats.lift,
+        加权代价: Number(r.cost.toFixed(2))
+      } : null,
+      预计: est ? { 距离米: est.meters, 预计秒: est.seconds, 估算规则: EST_RULE } : null,
+      风险提示: r ? risksOf(r.stats, state.mode) : [],
+      逐步指令: r ? r.steps.map(function (s) { return s.text; }) : [],
+      三策略对比: STRATEGIES.map(function (s) {
+        var x = state.results[s.id];
+        if (!x) return { 策略: s.name, 结果: '无可达路线' };
+        var e = estimate(x.stats);
+        return { 策略: s.name, 步数: x.stats.moves, 台阶数: x.stats.steps, 转弯数: x.stats.turns, 经过坡道: x.stats.ramp, 距离米: e.meters, 预计秒: e.seconds };
+      }),
+      无障碍自检: A11Y_ITEMS.map(function (it) { return it.k + '：' + it.s; }),
+      自检口径说明: '团队按公开无障碍指南自行核对，未开展第三方无障碍审计，未取得合规认证。',
+      数据安全: '无账号、无个人信息采集、无网络请求；地图与偏好保存于本机 localStorage，可一键清除。',
+      手动经过点: state.visited
+    };
+  }
+
+  function reportText() {
+    var o = buildReport(), L = [];
+    L.push('同频舱 · 行程报告');
+    L.push('==============================');
+    L.push('作品：' + o.作品);
+    L.push('边界声明：' + o.边界声明);
+    L.push('导出时间：' + o.导出时间);
+    L.push('地图来源：' + o.地图来源);
+    L.push('地图规模：' + o.地图规模);
+    L.push('偏好模式：' + o.偏好模式);
+    L.push('采用策略：' + o.采用策略);
+    L.push('起点：' + o.起点);
+    L.push('终点：' + o.终点);
+    L.push('当前位置：' + o.当前位置);
+    L.push('');
+    L.push('— 统计 —');
+    if (o.统计) {
+      L.push('步数：' + o.统计.步数 + '　台阶数：' + o.统计.台阶数 + ' 级　转弯数：' + o.统计.转弯数 + '　窄通道数：' + o.统计.窄通道数);
+      L.push('经过坡道：' + (o.统计.经过坡道 ? '是' : '否') + '　经过楼梯：' + (o.统计.经过楼梯 ? '是' : '否') + '　经过电梯：' + (o.统计.经过电梯 ? '是' : '否'));
+      L.push('加权代价：' + o.统计.加权代价);
+    } else L.push('无可达路线');
+    L.push('');
+    L.push('— 预计时间（示例估算规则，非实测） —');
+    if (o.预计) {
+      L.push('距离：约 ' + o.预计.距离米 + ' m　预计时间：' + fmtDur(o.预计.预计秒));
+      L.push('规则：' + o.预计.估算规则);
+    } else L.push('无可达路线');
+    L.push('');
+    L.push('— 风险提示 —');
+    (o.风险提示.length ? o.风险提示 : ['无']).forEach(function (t) { L.push('· ' + t); });
+    L.push('');
+    L.push('— 逐步指令 —');
+    o.逐步指令.forEach(function (t, i) { L.push((i + 1) + '. ' + t); });
+    L.push('');
+    L.push('— 三策略对比 —');
+    o.三策略对比.forEach(function (c) {
+      L.push(c.结果 ? c.策略 + '：无可达路线' : c.策略 + '：步数 ' + c.步数 + '，台阶 ' + c.台阶数 + ' 级，转弯 ' + c.转弯数 + '，坡道 ' + (c.经过坡道 ? '经过' : '不经过') + '，约 ' + c.距离米 + ' m / ' + fmtDur(c.预计秒));
+    });
+    L.push('');
+    L.push('— 无障碍自检（团队自行核对） —');
+    o.无障碍自检.forEach(function (t) { L.push('· ' + t); });
+    L.push('口径：' + o.自检口径说明);
+    L.push('');
+    L.push('— 数据安全 —');
+    L.push(o.数据安全);
+    L.push('');
+    L.push('— 手动经过点 —');
+    L.push(o.手动经过点.length ? o.手动经过点.join(' → ') : '无');
+    return L.join('\n');
+  }
+
+  function download(name, text, mime) {
+    var blob = new Blob([text], { type: mime || 'text/plain;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1500);
+  }
+
+  /* ========== 八·补、本机存储（localStorage，读写均做异常处理；不上传） ========== */
+  function lsGet(k) { try { return window.localStorage ? window.localStorage.getItem(k) : null; } catch (e) { return null; } }
+  function lsSet(k, v) { try { window.localStorage.setItem(k, v); return true; } catch (e) { return false; } }
+  function lsDel(k) { try { if (window.localStorage) window.localStorage.removeItem(k); return true; } catch (e) { return false; } }
+
+  // 当前地图序列化（保存与导出共用）
+  function currentMap() { return { name: state.mapName, w: W, h: H, floors: FLOORS, links: LINKS, places: PLACES }; }
+  function timeNow() {
+    var d = new Date();
+    return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+  }
+  function setStatus(msg, alsoAnnounce) {
+    var el = $('mapStatus');
+    if (el) el.textContent = '状态：' + msg;
+    if (alsoAnnounce) announce(msg);
+  }
+  // 校验导入的地图数据，返回错误说明；校验通过返回 null
+  function validateMap(o) {
+    if (!o || typeof o !== 'object') return '数据格式不正确';
+    if (!(o.w >= 3 && o.w <= 14) || !(o.h >= 3 && o.h <= 12)) return '网格尺寸需在 3–14 列、3–12 行之间';
+    if (!Array.isArray(o.floors) || o.floors.length < 1 || o.floors.length > 3) return '楼层数需为 1–3 层';
+    if (!Array.isArray(o.links)) return '缺少垂直交通数据 links';
+    if (!Array.isArray(o.places) || !o.places.length) return '至少需要 1 个目的地';
+    for (var i = 0; i < o.floors.length; i++) {
+      if (!Array.isArray(o.floors[i].blocks) || !Array.isArray(o.floors[i].narrow)) return '第 ' + (i + 1) + ' 层缺少 blocks / narrow 数组';
+    }
+    for (var j = 0; j < o.links.length; j++) {
+      var l = o.links[j];
+      if (!l || !l.a || !l.b || !l.type) return '垂直交通数据缺字段';
+      if (l.type !== 'stair' && l.type !== 'ramp' && l.type !== 'elevator') return '垂直交通类型只能是 stair / ramp / elevator';
+    }
+    for (var k = 0; k < o.places.length; k++) {
+      var p = o.places[k];
+      if (!p || !p.n || typeof p.f !== 'number' || typeof p.x !== 'number' || typeof p.y !== 'number') return '目的地数据缺少名称或坐标';
+      if (p.f < 0 || p.f >= o.floors.length || p.x < 0 || p.x >= o.w || p.y < 0 || p.y >= o.h) return '目的地「' + p.n + '」坐标越界';
+      if (o.floors[p.f].blocks.indexOf(p.x + ',' + p.y) >= 0) return '目的地「' + p.n + '」落在封闭格上';
+    }
+    return null;
+  }
+
+  function saveMap(auto) {
+    var ok = lsSet(MAP_KEY, JSON.stringify(currentMap()));
+    if (ok) setStatus('已' + (auto ? '自动' : '') + '保存到本机（' + timeNow() + '）。数据只存本浏览器，不上传。', !auto);
+    else setStatus('保存失败：本机存储不可用（隐私模式或空间不足），地图仅在本次会话内有效。', true);
+    return ok;
+  }
+  function savePrefs() {
+    lsSet(PREF_KEY, JSON.stringify({ mode: state.mode, strategy: state.strategy, voice: state.voice, contrast: state.contrast, large: state.large, motion: state.motion }));
+  }
+  function loadPrefs() {
+    var raw = lsGet(PREF_KEY);
+    if (!raw) return;
+    try {
+      var o = JSON.parse(raw);
+      if (MODES[o.mode]) state.mode = o.mode;
+      for (var i = 0; i < STRATEGIES.length; i++) if (STRATEGIES[i].id === o.strategy) state.strategy = o.strategy;
+      ['voice', 'contrast', 'large', 'motion'].forEach(function (k) { if (typeof o[k] === 'boolean') state[k] = o[k]; });
+      if (state.mode === 'hearing') state.voice = false;
+    } catch (e) { /* 偏好数据损坏时忽略，使用默认值 */ }
+  }
+
+  // 找一个可用起点：优先一层的"门 / 入口"类地点，其次一层第一个目的地，最后一层第一个非封闭格
+  function defaultStart() {
+    var i, p;
+    for (i = 0; i < PLACES.length; i++) {
+      p = PLACES[i];
+      if (p.f === 0 && !isBlock(p) && (p.n.indexOf('门') >= 0 || p.n.indexOf('入口') >= 0)) return { f: 0, x: p.x, y: p.y };
+    }
+    for (i = 0; i < PLACES.length; i++) {
+      p = PLACES[i];
+      if (p.f === 0 && !isBlock(p)) return { f: 0, x: p.x, y: p.y };
+    }
+    for (var y = 0; y < H; y++) {
+      for (var x = 0; x < W; x++) {
+        if (!isBlock({ f: 0, x: x, y: y })) return { f: 0, x: x, y: y };
+      }
+    }
+    return { f: 0, x: 0, y: 0 };
+  }
+
+  // 地图载入 / 导入 / 恢复后的统一收尾：复位位置、重建楼层按钮、重算路线
+  function afterMapLoad(name, source) {
+    state.mapName = name; state.mapSource = source;
+    edit.floor = 0; state.viewFloor = 0;
+    state.pos = defaultStart();
+    state.origin = { f: state.pos.f, x: state.pos.x, y: state.pos.y };
+    state.goal = PLACES[0];
+    state.idx = 0; state.visited = [];
+    renderTabs(true); replan(); render(); renderEditor();
+  }
+
+  function clearLocalData() {
+    var a = lsDel(MAP_KEY), b = lsDel(PREF_KEY);
+    loadMap(BUILTIN_MAP);
+    state.mode = 'wheelchair'; state.strategy = 'shortest';
+    state.voice = false; state.contrast = false; state.large = false;
+    state.motion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    afterMapLoad(BUILTIN_MAP.name, 'builtin');
+    $('mapJson').value = '';
+    applyDisplay();
+    setStatus((a || b ? '已清除本机保存的地图与偏好' : '本机此前没有可清除的数据') + '，并恢复内置示例地图。', true);
+  }
+
+  /* ========== 八·补二、自定义地图编辑 ========== */
+  var edit = { tool: 'wall', floor: 0 };
+  var TOOL_LABEL = { wall: '墙 / 封闭', open: '可通行', narrow: '窄通道', stair: '楼梯', ramp: '坡道', lift: '电梯', place: '设为目的地', erase: '移除标记' };
+
+  function cellType(n) { return isBlock(n) ? 'wall' : (isNarrow(n) ? 'narrow' : 'open'); }
+  function dropFrom(arr, k) { var i = arr.indexOf(k); if (i >= 0) arr.splice(i, 1); }
+  function addUnique(arr, k) { if (arr.indexOf(k) < 0) arr.push(k); }
+  // 垂直交通按坐标成对删除（两端同列同行）
+  function removeLinksAt(x, y) {
+    LINKS = LINKS.filter(function (l) { return !((l.a.x === x && l.a.y === y) || (l.b.x === x && l.b.y === y)); });
+  }
+  // 移除目的地；至少保留 1 个，否则返回 false
+  function removePlaceAt(f, x, y) {
+    if (!placeAt({ f: f, x: x, y: y })) return true;
+    if (PLACES.length <= 1) return false;
+    PLACES = PLACES.filter(function (p) { return !(p.f === f && p.x === x && p.y === y); });
+    return true;
+  }
+
+  function applyTool(f, x, y) {
+    var k = x + ',' + y, fl = FLOORS[f], other = FLOORS.length > 1 ? (f === 0 ? 1 : 0) : -1, t = edit.tool;
+    if (t === 'stair' || t === 'ramp' || t === 'lift') {
+      if (FLOORS.length < 2) { announce('当前地图只有 1 层，无法设置垂直交通。'); return; }
+      dropFrom(fl.blocks, k); dropFrom(fl.narrow, k);
+      dropFrom(FLOORS[other].blocks, k); dropFrom(FLOORS[other].narrow, k);
+      removeLinksAt(x, y);
+      var steps = t === 'stair' ? Math.max(1, Math.min(60, parseInt($('stairSteps').value, 10) || 8)) : 0;
+      LINKS.push({
+        id: t + '-' + x + '-' + y,
+        type: t === 'lift' ? 'elevator' : t,
+        label: t === 'stair' ? '楼梯' : (t === 'ramp' ? '坡道' : '电梯'),
+        steps: steps, a: { f: 0, x: x, y: y }, b: { f: 1, x: x, y: y }
+      });
+    } else if (t === 'place') {
+      var nm = ($('placeName').value || '').trim();
+      if (!nm) { announce('请先在「目的地名称」输入框填写名称，再点击格子。'); $('placeName').focus(); return; }
+      dropFrom(fl.blocks, k);
+      removePlaceAt(f, x, y);
+      PLACES.push({
+        n: nm, f: f, x: x, y: y, alias: [nm],
+        door: '自定义地点，门宽待现场确认', ramp: '自定义地点，坡道情况待现场确认',
+        quiet: '自定义地点，环境待现场确认', desc: '由使用者录入的地点，设施信息尚未核实。'
+      });
+    } else if (t === 'wall') {
+      addUnique(fl.blocks, k); dropFrom(fl.narrow, k);
+      removeLinksAt(x, y);
+      if (!removePlaceAt(f, x, y)) { announce('至少需要保留 1 个目的地，该地点的标记已保留。'); }
+    } else if (t === 'narrow') {
+      dropFrom(fl.blocks, k); addUnique(fl.narrow, k);
+      removeLinksAt(x, y);
+      removePlaceAt(f, x, y);
+    } else if (t === 'open') {
+      dropFrom(fl.blocks, k); dropFrom(fl.narrow, k);
+      removeLinksAt(x, y);
+    } else if (t === 'erase') {
+      dropFrom(fl.blocks, k); dropFrom(fl.narrow, k);
+      removeLinksAt(x, y);
+      if (!removePlaceAt(f, x, y)) { announce('至少需要保留 1 个目的地，该地点的标记已保留。'); }
+    }
+    afterEdit();
+  }
+
+  // 编辑后：修正可能失效的位置 / 目的地，自动保存并重算
+  function afterEdit() {
+    if (!inBounds(state.pos) || isBlock(state.pos)) { state.pos = defaultStart(); state.idx = 0; }
+    state.origin = { f: state.pos.f, x: state.pos.x, y: state.pos.y };
+    if (!state.goal || PLACES.indexOf(state.goal) < 0 || isBlock(state.goal)) state.goal = PLACES[0];
+    if (state.viewFloor >= FLOORS.length) state.viewFloor = 0;
+    if (edit.floor >= FLOORS.length) edit.floor = 0;
+    saveMap(true);
+    replan(); render(); renderEditor();
+  }
+
+  function renderEditor() {
+    var box = $('edGrid');
+    if (!box) return;
+    var f = Math.min(edit.floor, FLOORS.length - 1);
+    box.style.gridTemplateColumns = 'repeat(' + W + ',1fr)';
+    box.innerHTML = '';
+    for (var y = 0; y < H; y++) {
+      for (var x = 0; x < W; x++) {
+        (function (x, y) {
+          var n = { f: f, x: x, y: y }, t = cellType(n), lk = linkAt(n), pl = placeAt(n);
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'ecell';
+          if (t === 'wall') b.classList.add('wall');
+          if (t === 'narrow') b.classList.add('narrow');
+          if (lk) b.classList.add(lk.type === 'stair' ? 'stair' : (lk.type === 'ramp' ? 'ramp' : 'lift'));
+          if (pl) b.classList.add('place');
+          b.innerHTML = '<span>' + (pl ? pl.n : (lk ? lk.label : (t === 'wall' ? '墙' : (t === 'narrow' ? '窄' : '·')))) + '</span><small>' + (x + 1) + ',' + (y + 1) + '</small>';
+          b.setAttribute('aria-label', '第' + (y + 1) + '行第' + (x + 1) + '列，' +
+            (pl ? '目的地' + pl.n + '，' : '') + (lk ? lk.label + '，' : '') +
+            (t === 'wall' ? '封闭' : (t === 'narrow' ? '窄通道' : '可通行')) + '。当前工具：' + TOOL_LABEL[edit.tool]);
+          b.onclick = function () { applyTool(f, x, y); };
+          box.appendChild(b);
+        })(x, y);
+      }
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('[data-efloor]'), function (b) {
+      var on = Number(b.dataset.efloor) === f;
+      b.setAttribute('aria-pressed', String(on));
+      b.classList.toggle('on', on);
+    });
+    $('editHint').textContent = '当前工具：' + TOOL_LABEL[edit.tool] + ' · 正在编辑' + floorDef(f).name;
+  }
+
+  // 无障碍自检清单渲染
+  function renderA11y() {
+    var box = $('a11yList');
+    if (!box) return;
+    box.innerHTML = '';
+    A11Y_ITEMS.forEach(function (it) {
+      var row = document.createElement('div');
+      row.className = 'row';
+      row.innerHTML = '<b>' + it.k + '</b><span>' + it.d + '</span><span class="pill' + (it.s === '已实现' ? ' ok' : '') + '">' + it.s + '</span>';
+      box.appendChild(row);
+    });
+  }
+
+  /* ========== 九、抽屉 ========== */
+  var lastFocus = null;
+  function openDrawer() {
+    lastFocus = document.activeElement;
+    $('drawer').classList.add('open');
+    $('drawer').setAttribute('aria-hidden', 'false');
+    $('mask').classList.add('show');
+    $('drawerClose').focus();
+  }
+  function closeDrawer() {
+    $('drawer').classList.remove('open');
+    $('drawer').setAttribute('aria-hidden', 'true');
+    $('mask').classList.remove('show');
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  function drawerOpen() { return $('drawer').classList.contains('open'); }
+
+  /* ========== 十、事件绑定 ========== */
+  $('aboutBtn').onclick = openDrawer;
+  $('drawerClose').onclick = closeDrawer;
+  $('mask').onclick = closeDrawer;
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-mode]'), function (b) {
+    b.onclick = function () { setMode(b.dataset.mode); };
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-floor]'), function (b) {
+    b.onclick = function () { state.viewFloor = Number(b.dataset.floor); renderMap(); };
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-move]'), function (b) {
+    b.onclick = function () { var m = b.dataset.move.split(',').map(Number); manualMove(m[0], m[1]); };
+  });
+
+  // 自定义地图编辑：工具切换与网格操作
+  Array.prototype.forEach.call(document.querySelectorAll('[data-tool]'), function (b) {
+    b.onclick = function () {
+      edit.tool = b.dataset.tool;
+      Array.prototype.forEach.call(document.querySelectorAll('[data-tool]'), function (x) {
+        x.setAttribute('aria-pressed', String(x === b));
+      });
+      renderEditor();
+      announce('已选择编辑工具：' + TOOL_LABEL[edit.tool] + '。点击网格格子即可生效。');
+    };
+  });
+  $('mapName').addEventListener('change', function () {
+    state.mapName = ($('mapName').value || '').trim() || state.mapName;
+    saveMap(false);
+  });
+  $('saveMap').onclick = function () { saveMap(false); };
+  $('resetMap').onclick = function () {
+    loadMap(BUILTIN_MAP);
+    afterMapLoad(BUILTIN_MAP.name, 'builtin');
+    setStatus('已恢复内置示例地图（虚构数据）。本机保存的自定义地图已被覆盖。', true);
+  };
+  $('expMap').onclick = function () {
+    var txt = JSON.stringify(currentMap(), null, 2);
+    $('mapJson').value = txt;
+    download('同频舱-自定义地图.json', txt, 'application/json;charset=utf-8');
+    setStatus('已导出地图 JSON（同时填入下方文本框，可复制备份）。', true);
+  };
+  $('impMap').onclick = function () {
+    var raw = ($('mapJson').value || '').trim();
+    if (!raw) { announce('请先把地图 JSON 粘贴到文本框，再点「导入地图 JSON」。'); return; }
+    var o;
+    try { o = JSON.parse(raw); } catch (e) { announce('导入失败：JSON 解析错误，请检查格式后重试。当前地图未改变。'); return; }
+    var err = validateMap(o);
+    if (err) { announce('导入失败：' + err + '。当前地图未改变。'); return; }
+    loadMap(o);
+    afterMapLoad(o.name || '自定义地图', 'custom');
+    saveMap(false);
+    announce('已导入地图「' + state.mapName + '」：' + W + '×' + H + '、' + FLOORS.length + ' 层、' + PLACES.length + ' 个目的地。');
+  };
+  $('clearData').onclick = clearLocalData;
+  $('clearData2').onclick = clearLocalData;
+
+  $('btnStep').onclick = advanceStep;
+  $('send').onclick = runCommand;
+  $('cmd').addEventListener('keydown', function (e) { if (e.key === 'Enter') runCommand(); });
+
+  $('voice').onclick = function () {
+    if (state.mode === 'hearing') { announce('听障模式使用视觉与文字提示，语音保持关闭。'); return; }
+    if (!speechOK) { announce('当前浏览器不支持语音播报，已降级为文字提示。'); return; }
+    state.voice = !state.voice;
+    if (!state.voice) { try { window.speechSynthesis.cancel(); } catch (e) {} }
+    renderToggles();
+    savePrefs();
+    announce(state.voice ? '语音播报已开启。' : '语音播报已关闭，改为文字提示。');
+  };
+  $('contrast').onclick = function () { state.contrast = !state.contrast; applyDisplay(); renderToggles(); savePrefs(); announce(state.contrast ? '已开启高对比。' : '已关闭高对比。'); };
+  $('large').onclick = function () { state.large = !state.large; applyDisplay(); renderToggles(); savePrefs(); announce(state.large ? '已开启大字。' : '已关闭大字。'); };
+  $('motion').onclick = function () { state.motion = !state.motion; applyDisplay(); renderToggles(); savePrefs(); announce(state.motion ? '已减少动效。' : '已恢复动效。'); };
+
+  $('exportJson').onclick = function () {
+    download('同频舱-行程报告.json', JSON.stringify(buildReport(), null, 2), 'application/json;charset=utf-8');
+    announce('已导出 JSON 行程报告到本地。');
+  };
+  $('exportText').onclick = function () {
+    download('同频舱-行程报告.txt', reportText(), 'text/plain;charset=utf-8');
+    announce('已导出文本行程报告到本地。');
+  };
+  $('reset').onclick = function () {
+    state.pos = defaultStart();
+    state.goal = PLACES[0];
+    state.viewFloor = state.pos.f;
+    state.visited = [];
+    replan();
+    render();
+    var startName = placeAt(state.pos) ? placeAt(state.pos).n : nodeText(state.pos);
+    $('log').textContent = '路线记录：已重置到' + startName + '。';
+    announce('已重置到' + startName + '，可重新选择目的地。');
+  };
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { if (drawerOpen()) { closeDrawer(); e.preventDefault(); } return; }
+    if (drawerOpen()) {
+      if (e.key === 'Tab') { // 抽屉内简单焦点循环
+        var f = $('drawer').querySelectorAll('button, [href], input, summary');
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+      return;
+    }
+    var tag = document.activeElement ? document.activeElement.tagName : '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    var m = { ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0] }[e.key];
+    if (m) { e.preventDefault(); manualMove(m[0], m[1]); }
+  });
+
+  /* ========== 十一、初始化 ========== */
+  // 1) 减少动效：先尊重系统设置，再让本机保存的偏好覆盖
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) state.motion = true;
+  loadPrefs();
+
+  // 2) 恢复本机保存的自定义地图；不存在或校验不通过时用内置示例
+  var restored = false, mapRaw = lsGet(MAP_KEY);
+  if (mapRaw) {
+    try {
+      var mo = JSON.parse(mapRaw), mErr = validateMap(mo);
+      if (mErr) setStatus('本机保存的地图未载入：' + mErr + '。已改用内置示例。');
+      else if (loadMap(mo)) { afterMapLoad(mo.name || '自定义地图', 'custom'); restored = true; }
+    } catch (e) { /* 数据损坏时忽略，使用内置示例 */ }
+  }
+  if (!restored) {
+    loadMap(BUILTIN_MAP);
+    afterMapLoad(BUILTIN_MAP.name, 'builtin');
+  }
+  setStatus(restored
+    ? ('已载入本机保存的自定义地图「' + state.mapName + '」。数据只存本浏览器，不上传。')
+    : '地图来源：内置示例（虚构数据）。可在下方「录入自己的校园」面板编辑并保存到本机。');
+
+  // 3) 首次渲染
+  renderA11y();
+  renderEditor();
+  applyDisplay();
+  replan();
+  render();
+  announce('原型已就绪。' + (restored ? '已载入本机自定义地图。' : '内置示例为虚构两层网格。') +
+    '默认偏好：' + MODES[state.mode].name + '。可用 Tab 与方向键操作；页面下方提供无障碍自检清单与自定义地图编辑。');
+})();
+</script></body></html>
